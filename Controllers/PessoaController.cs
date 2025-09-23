@@ -5,7 +5,7 @@ namespace projetoPessoa.Controllers
 {
     public class PessoaController : ControllerBase
     {
-        List<Pessoa> listaPessoas = new List<Pessoa>
+        public static List<Pessoa> listaPessoas = new List<Pessoa>
         {
             new Pessoa { Id = 1, Nome = "Ana Carolina", Idade = 30, Email = "anitadaflon@gmail.com" },
             new Pessoa { Id = 2, Nome = "Igor BRandao", Idade = 25, Email = "devigorbrandao@gmail.com" }
@@ -38,12 +38,12 @@ namespace projetoPessoa.Controllers
             {
                 return BadRequest();
             }
-            else if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState); 
             }
 
-            novaPessoa.Id = listaPessoas.Max(p => p.Id) + 1;
+            novaPessoa.Id = listaPessoas.Any() ? listaPessoas.Max(p => p.Id) + 1 : 1;
             listaPessoas.Add(novaPessoa);
             return CreatedAtAction(nameof(GetPessoaById), new { id = novaPessoa.Id }, novaPessoa);
         }

@@ -2,6 +2,8 @@
 using projetoPessoa.Models;
 
 
+namespace projetoPessoa.Models
+{
     public class AppDbContext : DbContext
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
@@ -10,3 +12,7 @@ using projetoPessoa.Models;
 
         public DbSet<Pessoa> Pessoas { get; set; }
     }
+
+}  
+
+

@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 
 namespace projetoPessoa.Controllers
 {
+    [ApiController]
+    [Route("api/[controller]")]
     public class PessoaController : ControllerBase
     {
         private readonly AppDbContext _context;
@@ -14,17 +16,14 @@ namespace projetoPessoa.Controllers
             _context = context;
         }
 
-
         [HttpGet]
-        [Route("api/pessoas")]
         public async Task<IActionResult> GetPessoas()
         {
             var pessoas = await _context.Pessoas.ToListAsync();
             return Ok(pessoas);
         }
 
-        [HttpGet]
-        [Route("api/pessoas/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetPessoaById(int id)
         {
             var pessoa = await _context.Pessoas.FirstOrDefaultAsync(p => p.Id == id);
@@ -36,7 +35,6 @@ namespace projetoPessoa.Controllers
         }
 
         [HttpPost]
-        [Route("api/pessoas")]
         public async Task<IActionResult> CreatePessoa([FromBody] Pessoa novaPessoa)
         {
             if (novaPessoa == null)
@@ -50,8 +48,7 @@ namespace projetoPessoa.Controllers
             return CreatedAtAction(nameof(GetPessoaById), new { id = novaPessoa.Id }, novaPessoa);
         }
 
-        [HttpPut]
-        [Route("api/pessoas/{id}")]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePessoa(int id, [FromBody] Pessoa pessoaAtualizada)
         {
             if (pessoaAtualizada == null)
@@ -76,8 +73,7 @@ namespace projetoPessoa.Controllers
         }
 
 
-        [HttpDelete]
-        [Route("api/pessoas/{id}")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeletePessoa(int id)
         {
             var pessoa = await _context.Pessoas.FirstOrDefaultAsync(p => p.Id == id);
@@ -87,7 +83,7 @@ namespace projetoPessoa.Controllers
             }
             _context.Pessoas.Remove(pessoa);
             await _context.SaveChangesAsync(); 
-            return NoContent(); ;
+            return NoContent();
         }
 
     }
